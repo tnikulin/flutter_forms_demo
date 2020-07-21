@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_demo/view/create_message_view.dart';
+import 'package:flutter_form_demo/view/create_message_form_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
             body: Container(
                 padding: const EdgeInsets.symmetric(
                     vertical: 16.0, horizontal: 16.0),
-                child: Builder(builder: (context) => CreateMessageView()))));
+                child:
+                    Builder(builder: (context) => CreateMessageFormView()))));
   }
 }

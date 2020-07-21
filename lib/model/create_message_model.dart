@@ -1,14 +1,13 @@
 import 'package:flutter_form_demo/model/base_model.dart';
 import 'package:flutter_form_demo/model/message.dart';
 
-class CreateMessageModel extends BaseModel {
+class CreateMessageModel {
   var message = Message();
-  var alert = '';
 
-  save() {
-    wait(() async {
-      await Future.delayed(Duration(seconds: 1), () => null);
-      alert = 'Сохранено сообщение: ${message.field1} ${message.field2}';
-    });
+  Future<void> save() {
+    print('Вызван метод CreateMessageModel#save');
+    return Future.delayed(Duration(seconds: 3), () => print('Сообщение отправлено: ${message.toString()}'));
+//    return Future.delayed(
+//        Duration(seconds: 1), () => throw Exception('Сервер недоступен'));
   }
 }
