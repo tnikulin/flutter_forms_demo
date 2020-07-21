@@ -1,10 +1,12 @@
+import 'package:flutter_form_demo/model/base_model.dart';
 import 'package:flutter_form_demo/model/message.dart';
 
-class CreateMessageModel {
-
+class CreateMessageModel extends BaseModel {
   var message = Message();
+  var alert = '';
 
   save() {
-    print('Сообщение: ${message.field1} ${message.field2}');
+    alert = 'Сохранено сообщение: ${message.field1} ${message.field2}';
+    notifyListeners();
   }
 }
