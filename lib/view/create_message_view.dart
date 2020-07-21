@@ -4,7 +4,7 @@ import 'package:flutter_form_demo/view/base_view.dart';
 import 'package:flutter_form_demo/view/create_message_form_view.dart';
 
 class CreateMessageView extends StatelessWidget {
-  var _model = CreateMessageModel();
+  final _model = CreateMessageModel();
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,8 @@ class CreateMessageView extends StatelessWidget {
     return BaseView<CreateMessageModel>(
       model: _model,
       layoutBuilder: _buildLayout,
-      contentBuilder: _buildContent
+      contentBuilder: _buildContent,
+//      waitingBuilder: _buildContent
     );
   }
 

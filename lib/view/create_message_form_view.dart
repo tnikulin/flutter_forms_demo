@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_demo/view/widget/input_text.dart';
 
 class CreateMessageFormView extends StatefulWidget {
   final model;
@@ -14,7 +15,6 @@ class CreateMessageFormView extends StatefulWidget {
 
 class _CreateMessageFormViewState extends State<CreateMessageFormView> {
   final _formKey = GlobalKey<FormState>();
-//  final _model = CreateMessageModel();
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +22,13 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
     return Form(
       key: _formKey,
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        TextFormField(
-          decoration: InputDecoration(labelText: 'Поле 1'),
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Заполните поле 1';
-            }
-          },
-          onSaved: (val) => setState(() => widget.model.message.field1 = val),
-        ),
-        TextFormField(
-            decoration: InputDecoration(labelText: 'Поле 2'),
-            onSaved: (val) => setState(() => widget.model.message.field2 = val)),
+        InputText(
+            label: 'Поле 1',
+            onSaved: (val) => widget.model.message.field1 = val,
+            validator: (value) => value.isEmpty ? 'Заполните поле 1' : null),
+        InputText(
+            label: 'Поле 2',
+            onSaved: (val) => widget.model.message.field2 = val),
         Container(
             padding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),

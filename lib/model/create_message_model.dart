@@ -6,7 +6,9 @@ class CreateMessageModel extends BaseModel {
   var alert = '';
 
   save() {
-    alert = 'Сохранено сообщение: ${message.field1} ${message.field2}';
-    notifyListeners();
+    wait(() async {
+      await Future.delayed(Duration(seconds: 1), () => null);
+      alert = 'Сохранено сообщение: ${message.field1} ${message.field2}';
+    });
   }
 }
