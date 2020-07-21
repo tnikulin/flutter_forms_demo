@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_demo/model/create_message_model.dart';
+import 'package:flutter_form_demo/view/widget/input_dict.dart';
 import 'package:flutter_form_demo/view/widget/input_text.dart';
 
 class CreateMessageFormView extends StatefulWidget {
@@ -38,6 +39,12 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
           InputText(
               label: 'Поле 2',
               onSaved: (val) => widget.model.message.field2 = val),
+          InputDict(
+              label: 'Справочное значение',
+              onChanged: (val) => widget.model.message.dictionaryField = val,
+              items: widget.model.dictItems,
+              validator: (value) =>
+                  value?.id == null ? 'Заполните поле' : null),
           Container(
               padding:
                   const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
@@ -46,12 +53,8 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
                     onPressed: loading ? null : onFormSubmit,
                     child: Text('Сохранить')),
                 RaisedButton(
-                    onPressed: loading
-                        ? null
-                        : () {
-                            final form = _formKey.currentState;
-                            form.reset();
-                          },
+                    onPressed:
+                        loading ? null : () => _formKey.currentState.reset(),
                     child: Text('Очистить')),
               ])),
         ]),
