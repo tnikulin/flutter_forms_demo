@@ -18,7 +18,7 @@ class Message {
   String toString() {
     return 'Message{field1: $field1, field2: $field2, '
         'generatedField: $generatedField, dictionaryField: ${dictionaryField?.id}, '
-        'checkboxField: $checkboxField}, dateTimeField: $dateTimeField, person1: ${person1.toString()}, '
-        'person2: ${person2.toString()}, listField: ${documents.toString()}';
+        'checkboxField: $checkboxField}, dateTimeField: $dateTimeField, person1: $person1, '
+        'person2: $person2, listField: $documents, strings: $strings';
   }
 }

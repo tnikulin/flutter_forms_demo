@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_demo/model/entity/person.dart';
 import 'package:flutter_form_demo/view/widget/input_text_form_field.dart';
 
+/// Пример view, который можно переиспользовать в формах
 class PersonFormView extends StatelessWidget {
   final Person person;
   final String label;

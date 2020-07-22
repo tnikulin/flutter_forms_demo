@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 
+/// Form field для работы с списковыми данными
 class InputTableFormField<T> extends FormField<List<T>> {
-  final String label;
-
-  InputTableFormField(
-      {List<DataColumn> columns,
-      List<DataCell> Function(T) cellsBuilder,
-      List<Widget> Function(T) formFieldsBuilder,
-      T Function() newItemBuilder,
-      this.label,
-      FormFieldSetter<List<T>> onSaved,
-      FormFieldValidator<List<T>> validator,
-      List<T> initialValue})
-      : super(
-            onSaved: onSaved,
-            validator: validator,
-            initialValue: initialValue = [],
-            builder: (FormFieldState<List<T>> state) =>
-                InputTableFormFieldBuilder<T>(
-                    formFieldsBuilder: formFieldsBuilder,
-                    cellsBuilder: cellsBuilder,
-                    newItemBuilder: newItemBuilder,
-                    columns: columns,
-                    label: label,
-                    state: state));
+  InputTableFormField({
+    List<DataColumn> columns,
+    List<DataCell> Function(T) cellsBuilder,
+    List<Widget> Function(T) formFieldsBuilder,
+    T Function() newItemBuilder,
+    label,
+    FormFieldSetter<List<T>> onSaved,
+    FormFieldValidator<List<T>> validator,
+    List<T> initialValue,
+  }) : super(
+          onSaved: onSaved,
+          validator: validator,
+          initialValue: initialValue = [],
+          builder: (FormFieldState<List<T>> state) =>
+              InputTableFormFieldBuilder<T>(
+            label: label,
+            state: state,
+            columns: columns,
+            cellsBuilder: cellsBuilder,
+            newItemBuilder: newItemBuilder,
+            formFieldsBuilder: formFieldsBuilder,
+          ),
+        );
 }
 
+/// Построитель form field для работы с списковыми данными
 class InputTableFormFieldBuilder<T> extends StatelessWidget {
-  final FormFieldState<List<T>> state;
   final String label;
+  final FormFieldState<List<T>> state;
   final List<DataColumn> columns;
-  final T Function() newItemBuilder;
   final List<DataCell> Function(T) cellsBuilder;
+  final T Function() newItemBuilder;
   final List<Widget> Function(T) formFieldsBuilder;
 
   const InputTableFormFieldBuilder(
@@ -59,25 +61,18 @@ class InputTableFormFieldBuilder<T> extends StatelessWidget {
                           icon: Icon(Icons.add),
                           tooltip: 'Добавить запись',
                           onPressed: () {
-                            onAdd(context, state, formFieldsBuilder);
+                            _onAdd(context, state, formFieldsBuilder);
                           })))),
-              _datatable(state.value, context)
+              DataTable(
+                columns: columns,
+                rows: state.value
+                    .map((item) => DataRow(cells: cellsBuilder(item)))
+                    .toList(),
+              )
             ])));
   }
 
-  DataTable _datatable(List<T> data, BuildContext context) {
-    return DataTable(
-//      key: UniqueKey(),
-      columns: columns,
-      rows: data.map((item) => _row(context, item)).toList(),
-    );
-  }
-
-  DataRow _row(BuildContext context, T item) {
-    return DataRow(cells: cellsBuilder(item));
-  }
-
-  onAdd(BuildContext context, FormFieldState<List<T>> state,
+  _onAdd(BuildContext context, FormFieldState<List<T>> state,
       List<Widget> Function(T) formFieldsBuilder) {
     T newItem = newItemBuilder();
     showDialog(
@@ -86,9 +81,8 @@ class InputTableFormFieldBuilder<T> extends StatelessWidget {
         return AlertDialog(
             title: Text('Добавить значение'),
             content: SingleChildScrollView(
-              child: AddFormView<T>(
-                  formFieldsBuilder: formFieldsBuilder,
-                  newItem: newItem),
+              child: AddItemView<T>(
+                  formFieldsBuilder: formFieldsBuilder, newItem: newItem),
             ));
       },
     ).then((value) {
@@ -98,22 +92,21 @@ class InputTableFormFieldBuilder<T> extends StatelessWidget {
   }
 }
 
-class AddFormView<T> extends StatefulWidget {
+/// View для добавления новой записи в таблицу
+class AddItemView<T> extends StatefulWidget {
   final List<Widget> Function(T) formFieldsBuilder;
   final T newItem;
 
-  const AddFormView(
-      {Key key, this.formFieldsBuilder, this.newItem})
+  const AddItemView({Key key, this.formFieldsBuilder, this.newItem})
       : super(key: key);
 
   @override
-  _AddFormViewState<T> createState() {
-    return _AddFormViewState<T>();
+  _AddItemViewState<T> createState() {
+    return _AddItemViewState<T>();
   }
 }
 
-class _AddFormViewState<T> extends State<AddFormView<T>> {
-  String textMessage = '';
+class _AddItemViewState<T> extends State<AddItemView<T>> {
   final _formKey = GlobalKey<FormState>();
 
   @override
