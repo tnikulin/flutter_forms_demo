@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
             body: Container(
                 padding: const EdgeInsets.symmetric(
                     vertical: 16.0, horizontal: 16.0),
-                child:
-                    Builder(builder: (context) => CreateMessageFormView()))));
+                child: Builder(
+                    builder: (context) =>
+                        ListView(children: [CreateMessageFormView()])))));
   }
 }

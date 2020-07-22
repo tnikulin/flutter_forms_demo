@@ -10,11 +10,13 @@ class Message {
   DateTime dateTimeField;
   Person person1 = Person();
   Person person2 = Person();
+  List<String> listField = [];
 
   @override
   String toString() {
     return 'Message{field1: $field1, field2: $field2, '
         'generatedField: $generatedField, dictionaryField: ${dictionaryField?.id}, '
-        'checkboxField: $checkboxField}, dateTimeField: $dateTimeField, person1: ${person1.toString()}, person2: ${person2.toString()}';
+        'checkboxField: $checkboxField}, dateTimeField: $dateTimeField, person1: ${person1.toString()}, '
+        'person2: ${person2.toString()}, listField: ${listField.toString()}';
   }
 }

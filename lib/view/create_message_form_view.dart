@@ -4,6 +4,7 @@ import 'package:flutter_form_demo/view/person_form_view.dart';
 import 'package:flutter_form_demo/view/widget/checkbox_form_field.dart';
 import 'package:flutter_form_demo/view/widget/datepicker_form_field.dart';
 import 'package:flutter_form_demo/view/widget/dict_form_field.dart';
+import 'package:flutter_form_demo/view/widget/input_table_form_field.dart';
 import 'package:flutter_form_demo/view/widget/input_text_form_field.dart';
 
 class CreateMessageFormView extends StatefulWidget {
@@ -65,6 +66,11 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
               label: 'Данные физлица 1', person: widget.model.message.person1),
           PersonFormView(
               label: 'Данные физлица 2', person: widget.model.message.person2),
+          InputTableFormField(
+            label: 'Таблица 1',
+//            initialValue: ['Значение 1', 'Значение 2'],
+            onSaved: (val) => widget.model.message.listField = val,
+          ),
           Container(
               padding: const EdgeInsets.all(16.0),
               child: Column(children: [
