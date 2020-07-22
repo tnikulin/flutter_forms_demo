@@ -1,5 +1,6 @@
 import 'package:flutter_form_demo/model/entity/dictionary.dart';
 import 'package:flutter_form_demo/model/entity/message.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateMessageModel {
   var dictItems = [
@@ -7,14 +8,27 @@ class CreateMessageModel {
     Dictionary(1, 'Значение 1'),
     Dictionary(2, 'Значение 2'),
   ];
-
   var message = Message();
 
-  Future<void> save() {
+  CreateMessageModel() {
+    initMessage();
+  }
+
+  Future<void> save(bool withError) {
     print('Вызван метод CreateMessageModel#save');
-    return Future.delayed(Duration(seconds: 1),
-        () => print('Сообщение отправлено: ${message.toString()}'));
-//    return Future.delayed(
-//        Duration(seconds: 1), () => throw Exception('Сервер недоступен'));
+    if (withError) {
+      return Future.delayed(
+          Duration(seconds: 1), () => throw Exception('Сервер недоступен'));
+    } else {
+      return Future.delayed(Duration(seconds: 1), () {
+        print('Сообщение отправлено: ${message.toString()}');
+        initMessage();
+      });
+    }
+  }
+
+  void initMessage() {
+    var uuid = Uuid();
+    message.generatedField = uuid.v1();
   }
 }

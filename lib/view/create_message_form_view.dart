@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_demo/model/create_message_model.dart';
+import 'package:flutter_form_demo/view/widget/checkbox_form_field.dart';
+import 'package:flutter_form_demo/view/widget/datepicker_form_field.dart';
 import 'package:flutter_form_demo/view/widget/input_dict.dart';
 import 'package:flutter_form_demo/view/widget/input_text.dart';
 
@@ -29,8 +31,7 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           InputText(
               label: 'Сгенерированное поле',
-              initialValue: 'Сгенерированное значение',
-              onSaved: (val) => widget.model.message.generatedField = val,
+              initialValue: widget.model.message.generatedField,
               readOnly: true),
           InputText(
               label: 'Поле 1',
@@ -45,13 +46,29 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
               items: widget.model.dictItems,
               validator: (value) =>
                   value?.id == null ? 'Заполните поле' : null),
+          CheckboxFormField(
+            onSaved: (val) => widget.model.message.checkboxField = val,
+          ),
+          DatepickerFormField(
+            initialValue: DateTime.now(),
+            onSaved: (val) => widget.model.message.dateTimeField = val,
+            validator: (DateTime value) {
+              DateTime now = new DateTime.now();
+              DateTime date = new DateTime(now.year, now.month, now.day);
+              return value.isBefore(date)
+                  ? 'Дата не может быть меньше текущей'
+                  : null;
+            },
+          ),
           Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(children: [
                 RaisedButton(
-                    onPressed: loading ? null : onFormSubmit,
+                    onPressed: loading ? null : onSuccessFormSubmit,
                     child: Text('Сохранить')),
+                RaisedButton(
+                    onPressed: loading ? null : onErrorFormSubmit,
+                    child: Text('Сохранить с ошибкой')),
                 RaisedButton(
                     onPressed:
                         loading ? null : () => _formKey.currentState.reset(),
@@ -62,13 +79,22 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
     ]);
   }
 
-  void onFormSubmit() {
+  void onSuccessFormSubmit() {
+    onFormSubmit();
+  }
+
+  void onErrorFormSubmit() {
+    onFormSubmit(withError: true);
+  }
+
+  void onFormSubmit({bool withError = false}) {
     final form = _formKey.currentState;
     if (form.validate()) {
       setState(() {
         form.save();
-        widget.model.save().then((value) {
+        widget.model.save(withError).then((value) {
           setState(() {
+            print('новый ${widget.model.message.generatedField}');
             textMessage = 'Сообщение отправлено';
             form.reset();
             loading = false;
