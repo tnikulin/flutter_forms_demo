@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_demo/model/create_message_model.dart';
 import 'package:flutter_form_demo/view/widget/checkbox_form_field.dart';
 import 'package:flutter_form_demo/view/widget/datepicker_form_field.dart';
-import 'package:flutter_form_demo/view/widget/input_dict.dart';
-import 'package:flutter_form_demo/view/widget/input_text.dart';
+import 'package:flutter_form_demo/view/widget/dict_form_field.dart';
+import 'package:flutter_form_demo/view/widget/input_text_form_field.dart';
 
 class CreateMessageFormView extends StatefulWidget {
   final CreateMessageModel model = CreateMessageModel();
@@ -29,23 +29,23 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
         key: _formKey,
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          InputText(
+          InputTextFormField(
               label: 'Сгенерированное поле',
               initialValue: widget.model.message.generatedField,
               readOnly: true),
-          InputText(
+          InputTextFormField(
               label: 'Поле 1',
               onSaved: (val) => widget.model.message.field1 = val,
               validator: (value) => value.isEmpty ? 'Заполните поле 1' : null),
-          InputText(
+          InputTextFormField(
               label: 'Поле 2',
               onSaved: (val) => widget.model.message.field2 = val),
-          InputDict(
-              label: 'Справочное значение',
-              onChanged: (val) => widget.model.message.dictionaryField = val,
-              items: widget.model.dictItems,
-              validator: (value) =>
-                  value?.id == null ? 'Заполните поле' : null),
+          DictFormField(
+            label: 'Справочное значение',
+            onChanged: (val) => widget.model.message.dictionaryField = val,
+            items: widget.model.dictItems,
+            validator: (value) => value?.id == null ? 'Заполните поле' : null,
+          ),
           CheckboxFormField(
             onSaved: (val) => widget.model.message.checkboxField = val,
           ),
@@ -94,6 +94,7 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
         form.save();
         widget.model.save(withError).then((value) {
           setState(() {
+            print('Форма успешно сохранена');
             print('новый ${widget.model.message.generatedField}');
             textMessage = 'Сообщение отправлено';
             form.reset();

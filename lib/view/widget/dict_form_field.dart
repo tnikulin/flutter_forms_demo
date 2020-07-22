@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_demo/model/entity/dictionary.dart';
 
-class InputDict extends StatelessWidget {
+class DictFormField extends StatelessWidget {
   final String label;
   final ValueChanged<Dictionary> onChanged;
   final List<Dictionary> items;
   final FormFieldValidator<Dictionary> validator;
 
-  const InputDict(
+  const DictFormField(
       {Key key, this.label, this.onChanged, this.items, this.validator})
       : super(key: key);
 
