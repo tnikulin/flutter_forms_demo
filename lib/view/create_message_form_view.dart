@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_demo/model/create_message_model.dart';
+import 'package:flutter_form_demo/model/entity/document.dart';
 import 'package:flutter_form_demo/view/person_form_view.dart';
 import 'package:flutter_form_demo/view/widget/checkbox_form_field.dart';
 import 'package:flutter_form_demo/view/widget/datepicker_form_field.dart';
@@ -66,11 +67,8 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
               label: 'Данные физлица 1', person: widget.model.message.person1),
           PersonFormView(
               label: 'Данные физлица 2', person: widget.model.message.person2),
-          InputTableFormField(
-            label: 'Таблица 1',
-//            initialValue: ['Значение 1', 'Значение 2'],
-            onSaved: (val) => widget.model.message.listField = val,
-          ),
+          _inputDocumentsTable(),
+          _inputStringsTable(),
           Container(
               padding: const EdgeInsets.all(16.0),
               child: Column(children: [
@@ -88,6 +86,47 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
         ]),
       )
     ]);
+  }
+
+  InputTableFormField<Document> _inputDocumentsTable() {
+    return InputTableFormField<Document>(
+      label: 'Документы',
+      columns: [
+        DataColumn(label: Text('Серия')),
+        DataColumn(label: Text('Номер'))
+      ],
+      cellsBuilder: (document) =>
+          [DataCell(Text(document.series)), DataCell(Text(document.number))],
+      newItemBuilder: () => Document(),
+      formFieldsBuilder: (document) {
+        return [
+          InputTextFormField(
+              label: 'Серия', onSaved: (val) => document.series = val),
+          InputTextFormField(
+              label: 'Номер', onSaved: (val) => document.number = val),
+        ];
+      },
+      onSaved: (val) => widget.model.message.documents = val,
+    );
+  }
+
+  /// Для добавления в таблице списка значений типа String приходится
+  /// использовать класс-обертку StringWrapper, однако это касается только
+  /// логики представления, не просачивается в модель и не лишает код
+  /// типобезопасности
+  InputTableFormField<StringWrapper> _inputStringsTable() {
+    return InputTableFormField<StringWrapper>(
+      label: 'Строки',
+      columns: [DataColumn(label: Text('Значение'))],
+      cellsBuilder: (wrapper) => [DataCell(Text(wrapper.value))],
+      newItemBuilder: () => StringWrapper(),
+      formFieldsBuilder: (wrapper) => [
+        InputTextFormField(
+            label: 'Значение', onSaved: (val) => wrapper.value = val),
+      ],
+      onSaved: (val) => widget.model.message.strings =
+          val.map((wrapper) => wrapper.value).toList(),
+    );
   }
 
   void onSuccessFormSubmit() {
@@ -121,4 +160,8 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
       });
     }
   }
+}
+
+class StringWrapper {
+  String value;
 }

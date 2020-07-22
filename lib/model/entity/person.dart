@@ -4,6 +4,6 @@ class Person {
 
   @override
   String toString() {
-    return 'Message{firstName: $firstName, lastName: $lastName}';
+    return 'Person{firstName: $firstName, lastName: $lastName}';
   }
 }
