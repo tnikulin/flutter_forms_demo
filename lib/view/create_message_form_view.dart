@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_demo/model/create_message_model.dart';
+import 'package:flutter_form_demo/view/person_form_view.dart';
 import 'package:flutter_form_demo/view/widget/checkbox_form_field.dart';
 import 'package:flutter_form_demo/view/widget/datepicker_form_field.dart';
 import 'package:flutter_form_demo/view/widget/dict_form_field.dart';
@@ -60,6 +61,10 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
                   : null;
             },
           ),
+          PersonFormView(
+              label: 'Данные физлица 1', person: widget.model.message.person1),
+          PersonFormView(
+              label: 'Данные физлица 2', person: widget.model.message.person2),
           Container(
               padding: const EdgeInsets.all(16.0),
               child: Column(children: [
