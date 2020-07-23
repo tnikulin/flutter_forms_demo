@@ -24,7 +24,7 @@ abstract class BaseModel extends ChangeNotifier {
   /// в статусе buzy, по окончании - в статус ready при успешной инициализации,
   /// в статус error - при ошибке инициализации.
   void initModel() {
-    print('Вызван метод BaseModel#initModel');
+//    print('Вызван метод BaseModel#initModel');
     if (status == Status.notInitialized) {
       wait(() => init());
     }

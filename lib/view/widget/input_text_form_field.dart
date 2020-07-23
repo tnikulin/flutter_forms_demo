@@ -17,7 +17,7 @@ class InputTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Вызван метод InputTextFormField#build (label $label)');
+//    print('Вызван метод InputTextFormField#build (label $label)');
     return TextFormField(
       decoration: InputDecoration(labelText: label),
       validator: validator,

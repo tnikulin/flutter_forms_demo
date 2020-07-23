@@ -13,7 +13,7 @@ class CreateMessageFormView extends StatefulWidget {
 
   @override
   _CreateMessageFormViewState createState() {
-    print('Вызван метод CreateMessageFormView#createState');
+//    print('Вызван метод CreateMessageFormView#createState');
     return _CreateMessageFormViewState();
   }
 }
@@ -25,7 +25,7 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
 
   @override
   Widget build(BuildContext context) {
-    print('Вызван метод _CreateMessageFormViewState#build');
+//    print('Вызван метод _CreateMessageFormViewState#build');
     return Column(children: [
       Text(textMessage),
       Form(
@@ -144,8 +144,6 @@ class _CreateMessageFormViewState extends State<CreateMessageFormView> {
         form.save();
         widget.model.save(withError).then((value) {
           setState(() {
-            print('Форма успешно сохранена');
-            print('новый ${widget.model.message.generatedField}');
             textMessage = 'Сообщение отправлено';
             form.reset();
             loading = false;

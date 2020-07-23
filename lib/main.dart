@@ -8,7 +8,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('Вызван метод MyApp#build');
+//    print('Вызван метод MyApp#build');
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

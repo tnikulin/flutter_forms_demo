@@ -15,7 +15,7 @@ class CreateMessageModel {
   }
 
   Future<void> save(bool withError) {
-    print('Вызван метод CreateMessageModel#save');
+//    print('Вызван метод CreateMessageModel#save');
     if (withError) {
       return Future.delayed(
           Duration(seconds: 1), () => throw Exception('Сервер недоступен'));

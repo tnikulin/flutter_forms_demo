@@ -42,7 +42,7 @@ class BaseView<T extends BaseModel> extends StatefulWidget {
 
   @override
   _BaseViewState<T> createState() {
-    print('Вызван метод BaseView#createState');
+//    print('Вызван метод BaseView#createState');
     return _BaseViewState<T>();
   }
 }
@@ -50,14 +50,14 @@ class BaseView<T extends BaseModel> extends StatefulWidget {
 class _BaseViewState<T extends BaseModel> extends State<BaseView<T>> {
   @override
   void initState() {
-    print('Вызван метод _BaseViewState#initState');
+//    print('Вызван метод _BaseViewState#initState');
     widget.model.initModel();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('Вызван метод _BaseViewState#build');
+//    print('Вызван метод _BaseViewState#build');
     return ChangeNotifierProvider<T>.value(
         value: widget.model, child: _buildView());
   }
