@@ -1,34 +1,49 @@
+import 'dart:async';
+
+import 'package:flutter_form_demo/model/base_model.dart';
 import 'package:flutter_form_demo/model/entity/dictionary.dart';
 import 'package:flutter_form_demo/model/entity/message.dart';
 import 'package:uuid/uuid.dart';
 
-class CreateMessageModel {
+class CreateMessageModel extends BaseModel {
   var dictItems = [
     Dictionary(null, ''),
     Dictionary(1, 'Значение 1'),
     Dictionary(2, 'Значение 2'),
   ];
-  var message = Message();
 
-  CreateMessageModel() {
-    initMessage();
+  var message = Message();
+  MessageCreationStatus messageCreationStatus;
+
+  save(bool withError, {Function() onSuccess}) {
+    messageCreationStatus = null;
+    wait(() async {
+      try {
+        final uuid = Uuid().v4();
+        message.generatedField = uuid;
+        await Future.delayed(Duration(seconds: 1), () => doSave(withError));
+        messageCreationStatus = MessageCreationStatus(
+            alertMessage: 'Сообщение успешно сохранено, id = $uuid');
+        if (onSuccess != null) onSuccess();
+      } catch (e) {
+        messageCreationStatus = MessageCreationStatus(
+            alertMessage: 'Ошибка сохранения сообщения: $e', error: true);
+      }
+    });
   }
 
-  Future<void> save(bool withError) {
-//    print('Вызван метод CreateMessageModel#save');
+  doSave(bool withError) {
     if (withError) {
-      return Future.delayed(
-          Duration(seconds: 1), () => throw Exception('Сервер недоступен'));
+      throw Exception('Тестовая ошибка');
     } else {
-      return Future.delayed(Duration(seconds: 1), () {
-        print('Сообщение отправлено: ${message.toString()}');
-        initMessage();
-      });
+      print('Сообщение отправлено: ${message.toString()}');
     }
   }
+}
 
-  void initMessage() {
-    var uuid = Uuid();
-    message.generatedField = uuid.v1();
-  }
+class MessageCreationStatus {
+  String alertMessage;
+  final bool error;
+
+  MessageCreationStatus({this.alertMessage, this.error = false});
 }

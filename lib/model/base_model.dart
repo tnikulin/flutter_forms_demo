@@ -53,4 +53,6 @@ abstract class BaseModel extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  bool get busy => status == Status.buzy;
 }
